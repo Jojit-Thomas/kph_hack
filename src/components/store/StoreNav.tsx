@@ -1,11 +1,19 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Search, ShoppingCart, User } from 'lucide-react';
-import { AiOutlineShop } from 'react-icons/ai';
 import Link from 'next/link';
+import { AiOutlineShop } from 'react-icons/ai';
 import { ModeToggle } from '../ThemeToggler';
+import { useCart } from './cart/CartContext';
 
 const StoreNav = () => {
+  const cart = (() => {
+    try {
+      return useCart();
+    } catch {
+      return null; // allow StoreNav to render outside provider too
+    }
+  })();
   return (
     <header className='sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
       <div className='mx-auto flex h-14 max-w-7xl items-center gap-3 px-4 sm:gap-4 sm:px-6'>
@@ -37,13 +45,13 @@ const StoreNav = () => {
         <div className='ml-1 flex items-center gap-1.5 sm:ml-0 sm:gap-2'>
           {/* Cart */}
           <div className='relative'>
-            <Button variant='outline' size='icon' aria-label='Cart'>
+            <Button variant='outline' size='icon' aria-label='Cart' onClick={() => cart?.toggle()}>
               <ShoppingCart className='size-4' />
               <span className='sr-only'>Open cart</span>
             </Button>
             {/* Badge (static 0 for now) */}
             <span className='text-primary-foreground absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] leading-none'>
-              0
+              {cart?.count ?? 0}
             </span>
           </div>
 
