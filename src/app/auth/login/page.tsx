@@ -1,93 +1,174 @@
-// app/login/page.tsx
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { ModeToggle } from "@/components/ThemeToggler";
+import { Button } from "@/components/ui/button";
 import axios from "@/config/axios";
+import { Eye, EyeOff, Loader2, Rocket } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
+    setError(null);
 
     try {
-      console.log(email, password);
-      await axios.post("/auth/login", {
-        email,
-        password,
-      });
-
-      // Redirect to admin dashboard on success
+      await axios.post("/auth/login", { email, password });
       router.push("/admin");
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Login failed");
+    } catch (err: unknown) {
+      const message =
+        typeof err === "object" && err && "response" in err && (err as any).response?.data?.message
+          ? (err as any).response.data.message
+          : "Login failed";
+      setError(message);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="text-center text-3xl font-bold text-gray-900">Sign in to your account</h2>
+    <main className="min-h-dvh">
+      {/* Header - mirrors landing page */}
+      <header className="border-b sticky top-0 z-40 bg-background/70 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2">
+            <span className="inline-flex size-8 items-center justify-center rounded-md border">
+              <Rocket className="size-4" />
+            </span>
+            <span className="text-sm font-medium tracking-tight">Instant Store</span>
+          </Link>
+
+          <nav className="flex items-center gap-3 md:gap-4">
+            <Link href="/" className="hidden sm:inline text-sm text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md">
+              Back to home
+            </Link>
+            <ModeToggle />
+          </nav>
         </div>
+      </header>
 
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email address
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black"
-                placeholder="Enter your email"
-              />
+      {/* Auth card */}
+      <section>
+        <div className="mx-auto max-w-7xl px-6 py-12 sm:py-16 lg:py-24">
+          <div className="mx-auto w-full max-w-md">
+            <div className="rounded-xl border bg-card text-card-foreground p-6 sm:p-8 md:p-10">
+              <div className="text-center">
+                <div className="inline-flex items-center gap-2 rounded-full border bg-background px-3.5 py-1.5 text-[11px] md:text-xs">
+                  Welcome back
+                </div>
+                <h1 className="mt-6 text-3xl sm:text-4xl font-semibold tracking-tight leading-tight">
+                  Sign in to <span className="hue-gradient-text">Instant Store</span>
+                </h1>
+                <p className="mt-3 text-sm text-muted-foreground">Continue to your store.</p>
+              </div>
+
+              <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+                <div className="space-y-2">
+                  <label htmlFor="email" className="block text-sm font-medium">
+                    Email address
+                  </label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@example.com"
+                    className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-[3px] focus:ring-ring/50"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <label htmlFor="password" className="block text-sm font-medium">
+                      Password
+                    </label>
+                  </div>
+                  <div className="relative">
+                    <input
+                      id="password"
+                      name="password"
+                      type={showPassword ? "text" : "password"}
+                      required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="••••••••"
+                      className="mt-1 block w-full rounded-md border border-input bg-background pr-10 px-3 py-2 text-sm focus:outline-none focus:ring-[3px] focus:ring-ring/50"
+                    />
+                    <button
+                      type="button"
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                      onClick={() => setShowPassword((s) => !s)}
+                      className="absolute inset-y-0 right-2 inline-flex items-center justify-center px-1.5 text-muted-foreground hover:text-foreground"
+                    >
+                      {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                    </button>
+                  </div>
+                </div>
+
+                {error ? (
+                  <div className="rounded-md border border-destructive/40 bg-destructive/10 text-destructive px-3 py-2 text-sm">
+                    {error}
+                  </div>
+                ) : null}
+
+                <Button type="submit" className="w-full" disabled={loading}>
+                  {loading ? (
+                    <>
+                      <Loader2 className="size-4 animate-spin" />
+                      Signing in...
+                    </>
+                  ) : (
+                    "Sign in"
+                  )}
+                </Button>
+              </form>
+
+              <div className="mt-6 flex items-center justify-center gap-2 text-xs text-muted-foreground">
+                <span>New to Instant Store?</span>
+                <Link href="/store/demo" className="underline underline-offset-4 hover:text-foreground">
+                  Explore demo
+                </Link>
+              </div>
             </div>
 
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black"
-                placeholder="Enter your password"
-              />
+            <div className="mt-6 text-center">
+              <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-left">
+                  <path d="m12 19-7-7 7-7" />
+                  <path d="M19 12H5" />
+                </svg>
+                Back to home
+              </Link>
             </div>
           </div>
+        </div>
+      </section>
 
-          {error && <div className="text-red-600 text-sm text-center">{error}</div>}
-
-          <div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? "Signing in..." : "Sign in"}
-            </button>
+      {/* Footer - minimal */}
+      <footer className="border-t">
+        <div className="mx-auto max-w-7xl px-6 py-10 flex flex-col items-center justify-between gap-4 sm:gap-6 sm:flex-row flex-wrap">
+          <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} Instant Store. Launch thoughtfully.</p>
+          <div className="flex items-center gap-4 text-xs text-muted-foreground">
+            <Link href="/store/demo" className="hover:text-foreground">
+              Demo
+            </Link>
+            <Link href="/" className="hover:text-foreground">
+              Home
+            </Link>
           </div>
-        </form>
-      </div>
-    </div>
+        </div>
+      </footer>
+    </main>
   );
 }
