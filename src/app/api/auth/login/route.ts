@@ -1,7 +1,7 @@
 import SERVER_CONFIG from "@/config/constants";
 import db from "@/db.server";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { SignJWT } from "jose";
 import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
@@ -19,10 +19,19 @@ export async function POST(request: Request) {
     if (!isPasswordValid) {
       return Response.json({ error: "Invalid password" }, { status: 400 });
     }
-    const token = jwt.sign({ userId: user.id }, SERVER_CONFIG.JWT_SECRET, { expiresIn: "1h" });
+    const secret = new TextEncoder().encode(SERVER_CONFIG.JWT_SECRET ?? "");
+    const token = await new SignJWT({ userId: user.id })
+      .setProtectedHeader({ alg: 'HS256' })
+      .setExpirationTime('1h')
+      .setIssuedAt()
+      .sign(secret);
     const cookieStore = await cookies();
-    cookieStore.set("token", token, { httpOnly: true, secure: true, maxAge: 3600 });
-    // return Response.json({ token });
+    cookieStore.set("token", token, { 
+      httpOnly: true, 
+      secure: process.env.NODE_ENV === 'production', 
+      maxAge: 3600,
+      sameSite: 'lax'
+    });
     return Response.json({ message: "Login successful" });
   } catch (error) {
     console.error(error);
