@@ -1,0 +1,28 @@
+'use client';
+
+import React from 'react';
+import { AdminHeader } from '@/components/admin/AdminHeader';
+import { AdminSidebar } from '@/components/admin/AdminSidebar';
+import ProtectedRoute from '@/components/ProtectedRoute';
+
+export default function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <ProtectedRoute>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+        <AdminHeader />
+        <div className="flex">
+          <AdminSidebar />
+          <main className="flex-1 lg:ml-64">
+            <div className="p-6">
+              {children}
+            </div>
+          </main>
+        </div>
+      </div>
+    </ProtectedRoute>
+  );
+}

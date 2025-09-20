@@ -3,11 +3,19 @@ import React, { createContext, useContext, useMemo, useState } from 'react';
 
 export type Product = {
   id: string;
-  title: string;
+  name: string; // Changed from title to name to match database
   price: number;
+  description: string;
+  storeId: string;
+  categorySlug?: string; // Keep for backward compatibility
+  images?: Array<{
+    id: string;
+    url: string;
+    position: number;
+  }>;
+  // Legacy field for backward compatibility
+  title?: string;
   image?: string | null;
-  description?: string;
-  categorySlug?: string;
 };
 
 export type CartItem = {

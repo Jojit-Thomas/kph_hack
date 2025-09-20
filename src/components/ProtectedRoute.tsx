@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getClientAuth } from "@/lib/auth-utils";
+import { getClientAuth } from "@/lib/auth/client";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;

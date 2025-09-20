@@ -36,16 +36,20 @@ export default function CartSheet() {
               items.map((item) => (
                 <div key={item.id} className='flex gap-3 rounded-md border p-3'>
                   <div className='relative h-16 w-16 shrink-0 overflow-hidden rounded-md bg-secondary'>
-                    {item.product.image ? (
-                      <Image src={item.product.image} alt={item.product.title} fill className='object-cover' />
-                    ) : (
-                      <div className='flex h-full w-full items-center justify-center text-xs text-muted-foreground'>No image</div>
-                    )}
+                    {(() => {
+                      const displayImage = item.product.images?.[0]?.url || item.product.image;
+                      const productName = item.product.name || item.product.title || 'Untitled Product';
+                      return displayImage ? (
+                        <Image src={displayImage} alt={productName} fill className='object-cover' />
+                      ) : (
+                        <div className='flex h-full w-full items-center justify-center text-xs text-muted-foreground'>No image</div>
+                      );
+                    })()}
                   </div>
                   <div className='min-w-0 flex-1'>
                     <div className='flex items-start justify-between gap-2'>
                       <div className='min-w-0'>
-                        <p className='truncate text-sm font-medium'>{item.product.title}</p>
+                        <p className='truncate text-sm font-medium'>{item.product.name || item.product.title || 'Untitled Product'}</p>
                         <p className='text-xs text-muted-foreground'>${item.product.price.toFixed(2)}</p>
                       </div>
                       <button className='text-muted-foreground hover:text-destructive' onClick={() => remove(item.id)} aria-label='Remove'>
