@@ -46,7 +46,7 @@ export default function Home() {
               Launch your store in minutes
             </div>
             <h1 className='mt-8 text-pretty text-4xl font-semibold tracking-tight leading-tight sm:text-5xl lg:text-6xl'>
-              Build & Launch your store in <span className="hue-gradient-text">minutes</span>
+              Build & Launch your store in <span className='hue-gradient-text'>minutes</span>
             </h1>
             <p className='mt-5 sm:mt-6 text-balance text-base text-muted-foreground leading-relaxed sm:text-lg'>
               A streamlined onboarding that gets you from idea to a polished storefront—no code, no bloat. Connect products, customize
@@ -65,8 +65,31 @@ export default function Home() {
                 </Button>
               </Link>
             </div>
-            <p className='mt-4 text-xs text-muted-foreground'>No credit card required • Publish when you’re ready</p>
+            {/* <p className='mt-4 text-xs text-muted-foreground'>No credit card required • Publish when you’re ready</p> */}
           </div>
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section className='border-t'>
+        <div className='mx-auto max-w-7xl px-6 py-16 sm:py-20 lg:py-24'>
+          <div className='mx-auto max-w-2xl text-center'>
+            <h2 className='text-2xl font-semibold tracking-tight leading-snug sm:text-3xl'>Onboard in three simple steps</h2>
+            <p className='mt-4 text-muted-foreground leading-relaxed'>No friction, just momentum.</p>
+          </div>
+          <ol className='mt-10 grid gap-6 sm:gap-7 lg:gap-8 sm:grid-cols-3'>
+            <StepCard
+              index={1}
+              title='Create your account'
+              desc='Sign in to start a workspace—your store comes provisioned instantly.'
+            />
+            <StepCard
+              index={2}
+              title='Add products & branding'
+              desc='Import your catalog, upload images, and pick a look that fits.'
+            />
+            <StepCard index={3} title='Publish when ready' desc='Preview on a demo URL, then connect your domain and go live.' />
+          </ol>
         </div>
       </section>
 
@@ -114,34 +137,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* How it works */}
-      <section className='border-t'>
-        <div className='mx-auto max-w-7xl px-6 py-16 sm:py-20 lg:py-24'>
-          <div className='mx-auto max-w-2xl text-center'>
-            <h2 className='text-2xl font-semibold tracking-tight leading-snug sm:text-3xl'>Onboard in three simple steps</h2>
-            <p className='mt-4 text-muted-foreground leading-relaxed'>No friction, just momentum.</p>
-          </div>
-          <ol className='mt-10 grid gap-6 sm:gap-7 lg:gap-8 sm:grid-cols-3'>
-            <StepCard
-              index={1}
-              title='Create your account'
-              desc='Sign in to start a workspace—your store comes provisioned instantly.'
-            />
-            <StepCard
-              index={2}
-              title='Add products & branding'
-              desc='Import your catalog, upload images, and pick a look that fits.'
-            />
-            <StepCard index={3} title='Publish when ready' desc='Preview on a demo URL, then connect your domain and go live.' />
-          </ol>
-        </div>
-      </section>
-
       {/* Final CTA */}
       <section>
         <div className='mx-auto max-w-7xl px-6 py-16 sm:py-20 lg:py-24'>
           <div className='mx-auto max-w-3xl rounded-xl border bg-card p-8 sm:p-10 md:p-12 text-center'>
-            <h3 className='text-pretty text-2xl font-semibold tracking-tight leading-snug sm:text-3xl'>Ready to launch your store today?</h3>
+            <h3 className='text-pretty text-2xl font-semibold tracking-tight leading-snug sm:text-3xl'>
+              Ready to launch your store today?
+            </h3>
             <p className='mt-4 sm:mt-5 text-muted-foreground leading-relaxed'>
               Join makers who get online fast with an experience that values clarity, speed, and great defaults.
             </p>

@@ -57,14 +57,11 @@ export default function LoginPage() {
       </header>
 
       {/* Auth card */}
-      <section>
+      <section className="mt-20">
         <div className="mx-auto max-w-7xl px-6 py-12 sm:py-16 lg:py-24">
           <div className="mx-auto w-full max-w-md">
             <div className="rounded-xl border bg-card text-card-foreground p-6 sm:p-8 md:p-10">
               <div className="text-center">
-                <div className="inline-flex items-center gap-2 rounded-full border bg-background px-3.5 py-1.5 text-[11px] md:text-xs">
-                  Welcome back
-                </div>
                 <h1 className="mt-6 text-3xl sm:text-4xl font-semibold tracking-tight leading-tight">
                   Sign in to <span className="hue-gradient-text">Instant Store</span>
                 </h1>
@@ -154,21 +151,6 @@ export default function LoginPage() {
           </div>
         </div>
       </section>
-
-      {/* Footer - minimal */}
-      <footer className="border-t">
-        <div className="mx-auto max-w-7xl px-6 py-10 flex flex-col items-center justify-between gap-4 sm:gap-6 sm:flex-row flex-wrap">
-          <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} Instant Store. Launch thoughtfully.</p>
-          <div className="flex items-center gap-4 text-xs text-muted-foreground">
-            <Link href="/store/demo" className="hover:text-foreground">
-              Demo
-            </Link>
-            <Link href="/" className="hover:text-foreground">
-              Home
-            </Link>
-          </div>
-        </div>
-      </footer>
     </main>
   );
 }
