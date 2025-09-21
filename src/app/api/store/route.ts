@@ -24,12 +24,27 @@ export async function POST(request: Request) {
   const { isAuthenticated, user } = await checkAuth();
 
   if (!isAuthenticated) return Response.json({ error: "Unauthorized" }, { status: 401 });
+  if (!name || typeof name !== "string") {
+    return Response.json({ error: "Name is required" }, { status: 400 });
+  }
 
-  const handle = handleParam ? handleParam : slugify(name, { lower: true, replacement: "-" });
+  // Generate a URL-friendly unique handle
+  let base = handleParam ? String(handleParam) : slugify(name, { lower: true, replacement: "-" });
+  base = base.replace(/[^a-z0-9-]/g, "");
+  if (!base) base = `store-${Math.random().toString(36).slice(2, 8)}`;
 
-  const store = await db.store.create({
-    data: { name, description, handle, ownerId: user.userId },
+  let uniqueHandle = base;
+  let suffix = 1;
+  while (await db.store.findFirst({ where: { handle: uniqueHandle } })) {
+    uniqueHandle = `${base}-${suffix++}`;
+  }
+
+  const created = await db.store.create({
+    data: { name, description: description || "", handle: uniqueHandle, ownerId: user.userId },
   });
 
-  return Response.json(store);
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+  const publishedUrl = `${baseUrl}/store/${created.handle}`;
+
+  return Response.json({ ...created, publishedUrl });
 }

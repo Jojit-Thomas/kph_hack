@@ -1,12 +1,14 @@
 "use client";
 import { cn } from "@/lib/utils";
 import {
-  LayoutDashboard,
-  Package,
-  ReceiptText,
-  Sparkles,
-  Store,
-  Users,
+    BarChart3,
+    LayoutDashboard,
+    Package,
+    ReceiptText,
+    Settings,
+    Sparkles,
+    Store,
+    Users,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -21,8 +23,10 @@ const items: Item[] = [
   { label: "Dashboard", href: "/admin", icon: <LayoutDashboard className="size-4" /> },
   { label: "Stores", href: "/admin/stores", icon: <Store className="size-4" /> },
   { label: "Products", href: "/admin/products", icon: <Package className="size-4" /> },
-  { label: "Customers", href: "/admin/customers", icon: <Users className="size-4" /> },
   { label: "Orders", href: "/admin/orders", icon: <ReceiptText className="size-4" /> },
+  { label: "Customers", href: "/admin/customers", icon: <Users className="size-4" /> },
+  { label: "Analytics", href: "/admin/analytics", icon: <BarChart3 className="size-4" /> },
+  { label: "Settings", href: "/admin/settings", icon: <Settings className="size-4" /> },
 ];
 
 const AdminSidebar = () => {

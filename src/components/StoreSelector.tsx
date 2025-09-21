@@ -1,8 +1,7 @@
 'use client';
 
-import React from 'react';
+import { AlertCircle, ChevronDown, Loader2, Store } from 'lucide-react';
 import { useStore } from './StoreProvider';
-import { ChevronDown, Store, Loader2, AlertCircle } from 'lucide-react';
 
 export function StoreSelector() {
   const { selectedStore, setSelectedStore, stores, loading, error } = useStore();
@@ -27,10 +26,10 @@ export function StoreSelector() {
 
   if (stores.length === 0) {
     return (
-      <div className="flex items-center space-x-2 text-yellow-600 dark:text-yellow-400">
+      <a href="/admin" className="flex items-center space-x-2 text-yellow-600 dark:text-yellow-400 hover:underline">
         <Store className="h-4 w-4" />
-        <span className="text-sm">No stores found</span>
-      </div>
+        <span className="text-sm">Create your first store</span>
+      </a>
     );
   }
 
