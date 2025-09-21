@@ -21,16 +21,16 @@ export async function POST(request: Request) {
     }
     const secret = new TextEncoder().encode(SERVER_CONFIG.JWT_SECRET ?? "");
     const token = await new SignJWT({ userId: user.id })
-      .setProtectedHeader({ alg: 'HS256' })
-      .setExpirationTime('1h')
+      .setProtectedHeader({ alg: "HS256" })
+      .setExpirationTime("1d")
       .setIssuedAt()
       .sign(secret);
     const cookieStore = await cookies();
-    cookieStore.set("token", token, { 
-      httpOnly: true, 
-      secure: process.env.NODE_ENV === 'production', 
-      maxAge: 3600,
-      sameSite: 'lax'
+    cookieStore.set("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 86400,
+      sameSite: "lax",
     });
     return Response.json({ message: "Login successful" });
   } catch (error) {
