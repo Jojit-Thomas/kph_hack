@@ -1,4 +1,4 @@
-import { scrapeInstagramPublic } from "@/helpers/scrape";
+import { scrapeInstagramProfile } from "@/helpers/scrape";
 import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const { images, title } = await scrapeInstagramPublic(url);
+    const { images, title } = await scrapeInstagramProfile(url);
 
     if (images.length === 0) {
       return Response.json({

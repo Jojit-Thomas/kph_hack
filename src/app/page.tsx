@@ -59,6 +59,11 @@ export default function Home() {
                   <ArrowRight className='size-4' />
                 </Button>
               </Link>
+              <Link href='/onboard' className='w-full sm:w-auto'>
+                <Button variant='outline' size='lg' className='w-full sm:w-auto'>
+                  Import from Instagram
+                </Button>
+              </Link>
               <Link href='/store/demo' className='w-full sm:w-auto'>
                 <Button variant='outline' size='lg' className='w-full sm:w-auto'>
                   See a live demo
@@ -148,10 +153,15 @@ export default function Home() {
               Join makers who get online fast with an experience that values clarity, speed, and great defaults.
             </p>
             <div className='mt-8 flex flex-col items-center justify-center gap-3.5 sm:flex-row sm:gap-4'>
-              <Link href='/auth/login'>
+              <Link href='/onboard'>
                 <Button size='lg'>
-                  Create your store
+                  Import from Instagram
                   <ArrowRight className='size-4' />
+                </Button>
+              </Link>
+              <Link href='/auth/login'>
+                <Button size='lg' variant='outline'>
+                  Create your store
                 </Button>
               </Link>
               <Link href='/dashboard'>
