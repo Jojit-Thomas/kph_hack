@@ -55,7 +55,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   return (
     <CartProvider>
       <div className="min-h-screen">
-        <StoreNav />
+        <StoreNav storeName={storeData.name} />
         <main className="mx-auto w-full max-w-7xl">
           <div className="px-4 py-4 sm:px-6">
             <h1 className="text-base font-semibold tracking-tight">{storeData.name}</h1>

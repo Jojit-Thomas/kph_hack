@@ -6,7 +6,11 @@ import { AiOutlineShop } from 'react-icons/ai';
 import { ModeToggle } from '../ThemeToggler';
 import { useCart } from './cart/CartContext';
 
-const StoreNav = () => {
+interface StoreNavProps {
+  storeName?: string;
+}
+
+const StoreNav = ({ storeName = 'Sample Store' }: StoreNavProps) => {
   const cart = (() => {
     try {
       return useCart();
@@ -20,7 +24,7 @@ const StoreNav = () => {
         {/* Logo */}
         <Link href='/' className='flex items-center gap-2'>
           <AiOutlineShop className='h-5 w-5 opacity-90 dark:opacity-95' aria-hidden />
-          <span className='text-sm font-semibold tracking-tight'>Sample Store</span>
+          <span className='text-sm font-semibold tracking-tight'>{storeName}</span>
         </Link>
 
         {/* Minimal links (placeholder) */}
