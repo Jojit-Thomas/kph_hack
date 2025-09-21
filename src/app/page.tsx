@@ -43,10 +43,10 @@ export default function Home() {
         <div className='mx-auto max-w-7xl px-6 pb-12 sm:pb-16 pt-16 sm:pt-20 lg:pt-28'>
           <div className='mx-auto max-w-3xl text-center'>
             <div className='inline-flex items-center gap-2 rounded-full border bg-card text-card-foreground px-3.5 py-1.5 text-[11px] md:text-xs'>
-              Launch your store in minutes
+              Launch your store in seconds
             </div>
             <h1 className='mt-8 text-pretty text-4xl font-semibold tracking-tight leading-tight sm:text-5xl lg:text-6xl'>
-              Build & Launch your store in <span className='hue-gradient-text'>minutes</span>
+              Build & Launch your store with in <span className='hue-gradient-text'>seconds</span>
             </h1>
             <p className='mt-5 sm:mt-6 text-balance text-base text-muted-foreground leading-relaxed sm:text-lg'>
               A streamlined onboarding that gets you from idea to a polished storefront—no code, no bloat. Connect products, customize
